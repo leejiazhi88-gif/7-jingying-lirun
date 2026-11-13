@@ -93,6 +93,10 @@ def main():
     quarter = matrix(data, "q")
     ttm = matrix(data, "ttm")
     yoy = matrix(data, "yoy", percentage=True)
+    labels = [[f"{period[2:4]}年Q{((int(period[4:6]) - 1) // 3) + 1}"] for period in data["periods"]]
+    for sheet_id in SHEETS.values():
+        request("PUT", f"{BASE}/sheets/v2/spreadsheets/{spreadsheet}/values", token,
+                {"valueRange": {"range": f"{sheet_id}!A3:A{len(labels) + 2}", "values": labels}})
     ranges = {
         "quarter": write_and_verify(token, spreadsheet, SHEETS["quarter"], quarter),
         "ttm": write_and_verify(token, spreadsheet, SHEETS["ttm"], ttm),

@@ -74,6 +74,9 @@ def main():
 
     request("PUT", f"{BASE}/sheets/v2/spreadsheets/{spreadsheet}/values", token,
             {"valueRange": {"range": f"{SHEET_ID}!A1:A1", "values": [["年TTM营收（亿）"]]}})
+    labels = [[f"{period[2:4]}年Q{((int(period[4:6]) - 1) // 3) + 1}"] for period in data["periods"]]
+    request("PUT", f"{BASE}/sheets/v2/spreadsheets/{spreadsheet}/values", token,
+            {"valueRange": {"range": f"{SHEET_ID}!A3:A{len(labels) + 2}", "values": labels}})
     targets = write_and_verify(token, spreadsheet, values)
     request("PUT", f"{BASE}/sheets/v2/spreadsheets/{spreadsheet}/styles_batch_update", token,
             {"data": number_styles(values)})

@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import argparse
 import json
 import os
 import subprocess
@@ -122,6 +123,10 @@ def summary_matrix(rows):
 
 
 def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--financial-only", action="store_true",
+                        help="Only update the TTM and YoY sheets; leave the market summary untouched.")
+    args = parser.parse_args()
     load_env_file()
     data = json.loads(DATA_FILE.read_text(encoding="utf-8"))
     token = tenant_token()
@@ -130,12 +135,22 @@ def main():
     ttm_rows = [[rounded(v) for v in row] for row in data["ttm"] if row is not None]
     # 审计数据以百分数记录（如 71.74）；飞书百分比单元格底层应写 0.7174。
     yoy_rows = [[None if v is None else float(v) / 100 for v in row] for row in data["yoy"] if row is not None]
+    periods = json.loads((ROOT / "data" / "quarter_profit.json").read_text(encoding="utf-8"))["periods"]
+    labels = [[f"{period[2:4]}年Q{((int(period[4:6]) - 1) // 3) + 1}"] for period in periods]
+    for sheet_id, row_count in ((SHEET_TTM, len(ttm_rows)), (SHEET_YOY, len(yoy_rows))):
+        request("PUT", f"{BASE}/sheets/v2/spreadsheets/{spreadsheet}/values", token, {
+            "valueRange": {"range": f"{sheet_id}!A2:A{row_count + 1}", "values": labels[:row_count]}
+        })
     ttm_range = write_and_verify(token, spreadsheet, SHEET_TTM, (2, 2), ttm_rows)
     yoy_range = write_and_verify(token, spreadsheet, SHEET_YOY, (2, 2), yoy_rows)
     request("PUT", f"{BASE}/sheets/v2/spreadsheets/{spreadsheet}/styles_batch_update", token,
             {"data": style_groups(SHEET_TTM, data["ttm"][:len(ttm_rows)])})
     request("PUT", f"{BASE}/sheets/v2/spreadsheets/{spreadsheet}/styles_batch_update", token,
             {"data": percentage_style(SHEET_YOY, yoy_rows)})
+
+    if args.financial_only:
+        print(json.dumps({"ttm": ttm_range, "yoy": yoy_range, "financial_only": True}, ensure_ascii=False))
+        return
 
     summary_sheet, created = find_or_add_summary(token, spreadsheet)
     header_range = copy_summary_headers(token, spreadsheet, summary_sheet)

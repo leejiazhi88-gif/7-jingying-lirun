@@ -45,9 +45,9 @@ def request(method, url, token=None, body=None):
 
 def validate_data(data):
     matrix = data.get("matrix", [])
-    if len(matrix) != 18 or any(len(row) != 31 for row in matrix):
-        raise ValueError("Expected an 18 x 31 matrix")
-    if len(data.get("periods", [])) != 18 or len(data.get("l1s", [])) != 31:
+    if not matrix or any(len(row) != 31 for row in matrix):
+        raise ValueError("Expected a non-empty matrix with 31 columns")
+    if len(data.get("periods", [])) != len(matrix) or len(data.get("l1s", [])) != 31:
         raise ValueError("Period or industry metadata has an unexpected size")
     return matrix
 
@@ -106,7 +106,7 @@ def main():
     data = json.loads(DATA_FILE.read_text(encoding="utf-8"))
     matrix = validate_data(data)
     if args.check:
-        print(json.dumps({"rows": len(matrix), "columns": len(matrix[0]), "cells": 558}))
+        print(json.dumps({"rows": len(matrix), "columns": len(matrix[0]), "cells": len(matrix) * 31}))
         return
 
     load_env_file()
@@ -114,7 +114,12 @@ def main():
     wiki_token = os.environ.get("FEISHU_WIKI_TOKEN", DEFAULT_WIKI_TOKEN)
     sheet_id = os.environ.get("FEISHU_SHEET_ID", DEFAULT_SHEET_ID)
     spreadsheet = spreadsheet_token(token, wiki_token)
-    target_range = f"{sheet_id}!B2:AF19"
+    labels = [[f"{period[2:4]}年Q{((int(period[4:6]) - 1) // 3) + 1}"] for period in data["periods"]]
+    label_range = f"{sheet_id}!A2:A{len(matrix) + 1}"
+    request("PUT", f"{BASE}/sheets/v2/spreadsheets/{spreadsheet}/values", token, {
+        "valueRange": {"range": label_range, "values": labels}
+    })
+    target_range = f"{sheet_id}!B2:AF{len(matrix) + 1}"
     written_matrix = display_matrix(matrix)
     written = request("PUT", f"{BASE}/sheets/v2/spreadsheets/{spreadsheet}/values", token, {
         "valueRange": {"range": target_range, "values": written_matrix}
@@ -129,7 +134,7 @@ def main():
     if verified != written_matrix or not all(isinstance(value, (int, float)) for row in verified for value in row):
         raise RuntimeError("Read-back verification did not match the written matrix")
     print(json.dumps({
-        "range": target_range, "rows": 18, "columns": 31, "cells": 558,
+        "range": target_range, "rows": len(matrix), "columns": 31, "cells": len(matrix) * 31,
         "revision": written.get("data", {}).get("revision"),
         "all_numeric": True,
         "integer_cells": len(styles[0]["ranges"]),
