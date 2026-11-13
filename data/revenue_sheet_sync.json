@@ -1,0 +1,588 @@
+{
+  "as_of": "20261113",
+  "latest_financial_period": "20260930",
+  "sheets": [
+    {
+      "sheet_id": "7Yy8AS",
+      "title": "2.1 赛道季度营收",
+      "reference": "676109",
+      "ranges": [
+        "7Yy8AS!A1:AF20"
+      ],
+      "numeric_cells": 589,
+      "conditional_format_mode": "positive blue / negative red; public API cannot create native data bars",
+      "conditional_formats": [
+        {
+          "condition_format": {
+            "attrs": [
+              {
+                "formula": [
+                  "0"
+                ],
+                "operator": "greaterThan"
+              }
+            ],
+            "cf_id": "3zoqiReanw",
+            "ranges": [
+              "7Yy8AS!B2:AF20"
+            ],
+            "rule_type": "cellIs",
+            "style": {
+              "back_color": "#D6E4FF",
+              "fore_color": "#245BDB"
+            }
+          },
+          "sheet_id": "7Yy8AS"
+        },
+        {
+          "condition_format": {
+            "attrs": [
+              {
+                "formula": [
+                  "0"
+                ],
+                "operator": "lessThan"
+              }
+            ],
+            "cf_id": "eR1nTnV4qT",
+            "ranges": [
+              "7Yy8AS!B2:AF20"
+            ],
+            "rule_type": "cellIs",
+            "style": {
+              "back_color": "#FFE2E3",
+              "fore_color": "#C02A33"
+            }
+          },
+          "sheet_id": "7Yy8AS"
+        }
+      ]
+    },
+    {
+      "sheet_id": "dzdlsz",
+      "title": "2.2 赛道年TT营收",
+      "reference": "YhOty9",
+      "ranges": [
+        "dzdlsz!A1:AF20"
+      ],
+      "numeric_cells": 496,
+      "conditional_format_mode": "positive blue / negative red; public API cannot create native data bars",
+      "conditional_formats": [
+        {
+          "condition_format": {
+            "attrs": [
+              {
+                "formula": [
+                  "0"
+                ],
+                "operator": "greaterThan"
+              }
+            ],
+            "cf_id": "OS2woMLT9i",
+            "ranges": [
+              "dzdlsz!B2:AF20"
+            ],
+            "rule_type": "cellIs",
+            "style": {
+              "back_color": "#D6E4FF",
+              "fore_color": "#245BDB"
+            }
+          },
+          "sheet_id": "dzdlsz"
+        },
+        {
+          "condition_format": {
+            "attrs": [
+              {
+                "formula": [
+                  "0"
+                ],
+                "operator": "lessThan"
+              }
+            ],
+            "cf_id": "HhiUvQj2cC",
+            "ranges": [
+              "dzdlsz!B2:AF20"
+            ],
+            "rule_type": "cellIs",
+            "style": {
+              "back_color": "#FFE2E3",
+              "fore_color": "#C02A33"
+            }
+          },
+          "sheet_id": "dzdlsz"
+        }
+      ]
+    },
+    {
+      "sheet_id": "y61pqJ",
+      "title": "2.3 赛道年TT营收同比涨幅",
+      "reference": "Oj41pd",
+      "ranges": [
+        "y61pqJ!A1:AF20"
+      ],
+      "numeric_cells": 372,
+      "conditional_format_mode": "positive blue / negative red; public API cannot create native data bars",
+      "conditional_formats": [
+        {
+          "condition_format": {
+            "attrs": [
+              {
+                "formula": [
+                  "0"
+                ],
+                "operator": "greaterThan"
+              }
+            ],
+            "cf_id": "SAr8UNDgfn",
+            "ranges": [
+              "y61pqJ!B2:AF20"
+            ],
+            "rule_type": "cellIs",
+            "style": {
+              "back_color": "#D6E4FF",
+              "fore_color": "#245BDB"
+            }
+          },
+          "sheet_id": "y61pqJ"
+        },
+        {
+          "condition_format": {
+            "attrs": [
+              {
+                "formula": [
+                  "0"
+                ],
+                "operator": "lessThan"
+              }
+            ],
+            "cf_id": "qsop6r20Rl",
+            "ranges": [
+              "y61pqJ!B2:AF20"
+            ],
+            "rule_type": "cellIs",
+            "style": {
+              "back_color": "#FFE2E3",
+              "fore_color": "#C02A33"
+            }
+          },
+          "sheet_id": "y61pqJ"
+        }
+      ]
+    },
+    {
+      "sheet_id": "SLBprv",
+      "title": "4.1 单个季度营收",
+      "reference": "mJvCV8",
+      "ranges": [
+        "SLBprv!A1:CB21",
+        "SLBprv!CC1:DI21"
+      ],
+      "numeric_cells": 2098,
+      "conditional_format_mode": "positive blue / negative red; public API cannot create native data bars",
+      "conditional_formats": [
+        {
+          "condition_format": {
+            "attrs": [
+              {
+                "formula": [
+                  "0"
+                ],
+                "operator": "greaterThan"
+              }
+            ],
+            "cf_id": "Ek0nF9gtAc",
+            "ranges": [
+              "SLBprv!B3:DI21"
+            ],
+            "rule_type": "cellIs",
+            "style": {
+              "back_color": "#D6E4FF",
+              "fore_color": "#245BDB"
+            }
+          },
+          "sheet_id": "SLBprv"
+        },
+        {
+          "condition_format": {
+            "attrs": [
+              {
+                "formula": [
+                  "0"
+                ],
+                "operator": "lessThan"
+              }
+            ],
+            "cf_id": "lln5w3LI1F",
+            "ranges": [
+              "SLBprv!B3:DI21"
+            ],
+            "rule_type": "cellIs",
+            "style": {
+              "back_color": "#FFE2E3",
+              "fore_color": "#C02A33"
+            }
+          },
+          "sheet_id": "SLBprv"
+        }
+      ]
+    },
+    {
+      "sheet_id": "YoTOcI",
+      "title": "4.3单个年TTM营收涨幅",
+      "reference": "Oj41pd",
+      "ranges": [
+        "YoTOcI!A1:CB21",
+        "YoTOcI!CC1:DI21"
+      ],
+      "numeric_cells": 1316,
+      "conditional_format_mode": "positive blue / negative red; public API cannot create native data bars",
+      "conditional_formats": [
+        {
+          "condition_format": {
+            "attrs": [
+              {
+                "formula": [
+                  "0"
+                ],
+                "operator": "greaterThan"
+              }
+            ],
+            "cf_id": "26TuU1sZ3Q",
+            "ranges": [
+              "YoTOcI!B3:DI21"
+            ],
+            "rule_type": "cellIs",
+            "style": {
+              "back_color": "#D6E4FF",
+              "fore_color": "#245BDB"
+            }
+          },
+          "sheet_id": "YoTOcI"
+        },
+        {
+          "condition_format": {
+            "attrs": [
+              {
+                "formula": [
+                  "0"
+                ],
+                "operator": "lessThan"
+              }
+            ],
+            "cf_id": "fAG1NZKzw7",
+            "ranges": [
+              "YoTOcI!B3:DI21"
+            ],
+            "rule_type": "cellIs",
+            "style": {
+              "back_color": "#FFE2E3",
+              "fore_color": "#C02A33"
+            }
+          },
+          "sheet_id": "YoTOcI"
+        }
+      ]
+    },
+    {
+      "sheet_id": "E9yBZl",
+      "title": "4.2单个年TTM营收",
+      "ranges": [
+        "E9yBZl!B3:CC21",
+        "E9yBZl!CD3:DI21"
+      ],
+      "numeric_cells": 1762,
+      "data_bar_rules": 7,
+      "data_bar_coverage": "all populated data cells",
+      "conditional_formats": [
+        {
+          "condition_format": {
+            "attrs": [],
+            "cf_id": "xCt76cgHoy",
+            "ranges": [
+              "E9yBZl!A1:I200",
+              "E9yBZl!K1:W200",
+              "E9yBZl!AB1:AY200",
+              "E9yBZl!BC1:BE200",
+              "E9yBZl!BV1:CJ200",
+              "E9yBZl!CV1:CX200",
+              "E9yBZl!DJ1:GR200"
+            ],
+            "rule_type": "dataBar",
+            "style": {}
+          },
+          "sheet_id": "E9yBZl"
+        },
+        {
+          "condition_format": {
+            "attrs": [],
+            "cf_id": "2mvn2TXmTT",
+            "ranges": [
+              "E9yBZl!CY:DI"
+            ],
+            "rule_type": "dataBar",
+            "style": {}
+          },
+          "sheet_id": "E9yBZl"
+        },
+        {
+          "condition_format": {
+            "attrs": [],
+            "cf_id": "VEAC4YbpSy",
+            "ranges": [
+              "E9yBZl!X:AA"
+            ],
+            "rule_type": "dataBar",
+            "style": {}
+          },
+          "sheet_id": "E9yBZl"
+        },
+        {
+          "condition_format": {
+            "attrs": [],
+            "cf_id": "62Xdr85JWp",
+            "ranges": [
+              "E9yBZl!AZ:BB"
+            ],
+            "rule_type": "dataBar",
+            "style": {}
+          },
+          "sheet_id": "E9yBZl"
+        },
+        {
+          "condition_format": {
+            "attrs": [],
+            "cf_id": "A6xM2smmxS",
+            "ranges": [
+              "E9yBZl!BF:BU"
+            ],
+            "rule_type": "dataBar",
+            "style": {}
+          },
+          "sheet_id": "E9yBZl"
+        },
+        {
+          "condition_format": {
+            "attrs": [],
+            "cf_id": "4zDHcYSNFJ",
+            "ranges": [
+              "E9yBZl!CK:CU"
+            ],
+            "rule_type": "dataBar",
+            "style": {}
+          },
+          "sheet_id": "E9yBZl"
+        },
+        {
+          "condition_format": {
+            "attrs": [],
+            "cf_id": "DTLvj1E2YF",
+            "ranges": [
+              "E9yBZl!J:J"
+            ],
+            "rule_type": "dataBar",
+            "style": {}
+          },
+          "sheet_id": "E9yBZl"
+        }
+      ]
+    }
+  ],
+  "final_sheets": [
+    {
+      "grid_properties": {
+        "column_count": 32,
+        "frozen_column_count": 0,
+        "frozen_row_count": 0,
+        "row_count": 200
+      },
+      "hidden": false,
+      "index": 0,
+      "resource_type": "sheet",
+      "sheet_id": "676109",
+      "title": "1.1赛道季度利润"
+    },
+    {
+      "grid_properties": {
+        "column_count": 32,
+        "frozen_column_count": 0,
+        "frozen_row_count": 0,
+        "row_count": 200
+      },
+      "hidden": false,
+      "index": 1,
+      "resource_type": "sheet",
+      "sheet_id": "YhOty9",
+      "title": "1.2赛道年TTM利润"
+    },
+    {
+      "grid_properties": {
+        "column_count": 32,
+        "frozen_column_count": 0,
+        "frozen_row_count": 0,
+        "row_count": 200
+      },
+      "hidden": false,
+      "index": 2,
+      "resource_type": "sheet",
+      "sheet_id": "Oj41pd",
+      "title": "1.3赛道年TTM利润同比涨幅"
+    },
+    {
+      "grid_properties": {
+        "column_count": 30,
+        "frozen_column_count": 0,
+        "frozen_row_count": 0,
+        "row_count": 201
+      },
+      "hidden": true,
+      "index": 3,
+      "resource_type": "sheet",
+      "sheet_id": "WIPtkJ",
+      "title": "汇总一览表（26.1.20）"
+    },
+    {
+      "grid_properties": {
+        "column_count": 30,
+        "frozen_column_count": 2,
+        "frozen_row_count": 1,
+        "row_count": 200
+      },
+      "hidden": true,
+      "index": 4,
+      "resource_type": "sheet",
+      "sheet_id": "2hJdqo",
+      "title": "2汇总一览表（26.9.9）"
+    },
+    {
+      "grid_properties": {
+        "column_count": 32,
+        "frozen_column_count": 1,
+        "frozen_row_count": 1,
+        "row_count": 200
+      },
+      "hidden": false,
+      "index": 5,
+      "resource_type": "sheet",
+      "sheet_id": "7Yy8AS",
+      "title": "2.1 赛道季度营收"
+    },
+    {
+      "grid_properties": {
+        "column_count": 32,
+        "frozen_column_count": 1,
+        "frozen_row_count": 1,
+        "row_count": 200
+      },
+      "hidden": false,
+      "index": 6,
+      "resource_type": "sheet",
+      "sheet_id": "dzdlsz",
+      "title": "2.2 赛道年TT营收"
+    },
+    {
+      "grid_properties": {
+        "column_count": 32,
+        "frozen_column_count": 1,
+        "frozen_row_count": 1,
+        "row_count": 200
+      },
+      "hidden": false,
+      "index": 7,
+      "resource_type": "sheet",
+      "sheet_id": "y61pqJ",
+      "title": "2.3 赛道年TT营收同比涨幅"
+    },
+    {
+      "grid_properties": {
+        "column_count": 200,
+        "frozen_column_count": 1,
+        "frozen_row_count": 1,
+        "row_count": 200
+      },
+      "hidden": false,
+      "index": 8,
+      "resource_type": "sheet",
+      "sheet_id": "mJvCV8",
+      "title": "3.1单个季度利润"
+    },
+    {
+      "grid_properties": {
+        "column_count": 200,
+        "frozen_column_count": 1,
+        "frozen_row_count": 1,
+        "row_count": 200
+      },
+      "hidden": false,
+      "index": 9,
+      "resource_type": "sheet",
+      "sheet_id": "O4pM2w",
+      "title": "3.2单个年TTM利润"
+    },
+    {
+      "grid_properties": {
+        "column_count": 200,
+        "frozen_column_count": 0,
+        "frozen_row_count": 0,
+        "row_count": 200
+      },
+      "hidden": false,
+      "index": 10,
+      "resource_type": "sheet",
+      "sheet_id": "xMYegN",
+      "title": "3.3单个年TTM利润涨幅"
+    },
+    {
+      "grid_properties": {
+        "column_count": 113,
+        "frozen_column_count": 1,
+        "frozen_row_count": 2,
+        "row_count": 200
+      },
+      "hidden": false,
+      "index": 11,
+      "resource_type": "sheet",
+      "sheet_id": "SLBprv",
+      "title": "4.1 单个季度营收"
+    },
+    {
+      "grid_properties": {
+        "column_count": 200,
+        "frozen_column_count": 1,
+        "frozen_row_count": 1,
+        "row_count": 200
+      },
+      "hidden": false,
+      "index": 12,
+      "resource_type": "sheet",
+      "sheet_id": "E9yBZl",
+      "title": "4.2单个年TTM营收"
+    },
+    {
+      "grid_properties": {
+        "column_count": 113,
+        "frozen_column_count": 1,
+        "frozen_row_count": 2,
+        "row_count": 200
+      },
+      "hidden": false,
+      "index": 13,
+      "resource_type": "sheet",
+      "sheet_id": "YoTOcI",
+      "title": "4.3单个年TTM营收涨幅"
+    },
+    {
+      "grid_properties": {
+        "column_count": 19,
+        "frozen_column_count": 0,
+        "frozen_row_count": 0,
+        "row_count": 200
+      },
+      "hidden": false,
+      "index": 14,
+      "resource_type": "sheet",
+      "sheet_id": "1uW1oe",
+      "title": "思考"
+    }
+  ]
+}
