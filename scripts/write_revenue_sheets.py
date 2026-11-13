@@ -21,9 +21,9 @@ AUDIT = ROOT / 'data/revenue_sheet_sync.json'
 PLANS = [
     ('7Yy8AS', '676109', 'industry', 'quarter', '季度营收（亿）'),
     ('dzdlsz', 'YhOty9', 'industry', 'ttm', '年TTM营收（亿）'),
-    ('y61pqJ', 'Oj41pd', 'industry', 'yoy', '年TTM营收同比涨幅'),
+    ('y61pqJ', 'Oj41pd', 'industry', 'qoq', '年TTM营收环比涨幅'),
     ('SLBprv', 'mJvCV8', 'individual', 'quarter', '季度营收（亿）'),
-    ('YoTOcI', 'Oj41pd', 'individual', 'yoy', '年TTM营收同比涨幅'),
+    ('YoTOcI', 'Oj41pd', 'individual', 'qoq', '年TTM营收环比涨幅'),
 ]
 
 
@@ -139,14 +139,14 @@ def main():
             matrix = [[data['individual']['data'][name][field][i] for name in companies] for i in range(len(labels))]
             headers = [[heading] + companies, live['E9yBZl'][1][:113]]
             start_row = 3
-        written = matrix if field == 'yoy' else [[display_number(v) for v in row] for row in matrix]
+        written = matrix if field == 'qoq' else [[display_number(v) for v in row] for row in matrix]
         full = headers + [[label] + row for label, row in zip(labels, written)]
         columns = original[sid]['grid_properties']['column_count']
         if columns < len(full[0]):
             request('POST', f'{BASE}/sheets/v2/spreadsheets/{book}/dimension_range', token,
                     {'dimension': {'sheetId': sid, 'majorDimension': 'COLUMNS', 'length': len(full[0]) - columns}})
         targets = write_verify(token, book, sid, full)
-        format_values(token, book, sid, written, start_row, field == 'yoy')
+        format_values(token, book, sid, written, start_row, field == 'qoq')
         end_col = col_name(len(full[0]))
         def header_ranges(row):
             return [f'{sid}!{col_name(offset + 1)}{row}:{col_name(min(offset + 80, len(full[0])))}{row}'

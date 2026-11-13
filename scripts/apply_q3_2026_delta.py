@@ -2,6 +2,8 @@
 import json
 from pathlib import Path
 
+from growth_qoq import qoq_matrix, qoq_series
+
 ROOT = Path(__file__).resolve().parents[1]
 DATA = ROOT / "data"
 PERIOD = "20260930"
@@ -59,6 +61,8 @@ def update_industry(delta):
     derived = load("derived_sheets.json")
     derived["ttm"] = rolling_four(quarter["matrix"])
     derived["yoy"] = yoy_percent(derived["ttm"])
+    derived["qoq"] = qoq_matrix(derived["ttm"], len(quarter["l1s"]))
+    derived["displayed_growth"] = "qoq"
     derived["latest_financial_period"] = PERIOD
     save("derived_sheets.json", derived)
 
@@ -87,6 +91,8 @@ def update_individual_profit(delta):
             else None
             for index, current in enumerate(item["ttm"])
         ]
+        item["qoq"] = qoq_series(item["ttm"])
+    data["displayed_growth"] = "qoq"
     data["latest_financial_period"] = PERIOD
     save("individual_profit.json", data)
 

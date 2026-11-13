@@ -5,18 +5,18 @@
 ## 文件
 
 - `data/quarter_profit.json`：已同步的数据矩阵及取数统计
-- `data/derived_sheets.json`：TTM、同比和最新行业汇总审计数据
-- `data/individual_profit.json`：112 家公司的季度利润、TTM利润和同比审计数据
+- `data/derived_sheets.json`：TTM、环比和最新行业汇总审计数据
+- `data/individual_profit.json`：112 家公司的季度利润、TTM利润和环比审计数据
 - `data/individual_revenue.json`：112 家公司的单季营收及滚动四季TTM营收审计数据
 - `data/q3_2026_delta.json`：2026Q3 行业及单股利润、营收增量审计数据
 - `data/revenue_sheets.json`：2.1～2.3、4.1～4.3 的营收矩阵、行业覆盖统计、成分映射及源文件哈希
 - `data/revenue_sheet_sync.json`：营收六页的写入范围、数值数量及回读后的条件格式规则
 - `scripts/write_quarter_profit.py`：写入飞书并回读校验
 - `scripts/write_derived_sheets.py`：写入第 2、3 表，并新增刷新后的第 4 表副本
-- `scripts/write_individual_profit_sheets.py`：写入单股季度利润、TTM利润和同比三个工作表
+- `scripts/write_individual_profit_sheets.py`：写入单股季度利润、TTM利润和环比三个工作表
 - `scripts/write_individual_revenue_sheet.py`：写入单股滚动四季TTM营收工作表
 - `scripts/inspect_feishu_sheet.py`：读取 Wiki 表格结构和内容快照
-- `scripts/build_revenue_sheets.py`：从缓存的 Tushare 合并利润表重算营收单季值、TTM、同比
+- `scripts/build_revenue_sheets.py`：从缓存的 Tushare 合并利润表重算营收单季值、TTM、环比
 - `scripts/write_revenue_sheets.py`：补全营收六页，逐块回读，并设置数字及条件格式
 
 ## 使用
@@ -33,7 +33,7 @@ python3 scripts/write_quarter_profit.py
 
 脚本始终写入数值类型：绝对值达到 10 的数值使用整数和千位分隔符显示；仅绝对值小于 10 的数值四舍五入到 1 位小数并使用常规数字格式。原始数值及精度保留在 `data/quarter_profit.json`。
 
-“年TTM利润同比涨幅”以数值比例写入并使用两位小数的百分比格式，例如底层数值 `0.7174` 显示为 `71.74%`。
+“年TTM利润环比涨幅”以数值比例写入并使用两位小数的百分比格式，例如底层数值 `0.7174` 显示为 `71.74%`。
 
 最新“汇总一览表”的 G、K、M、N～U、W、Y、Z 列以数值比例写入，并使用两位小数的百分比格式。
 
@@ -48,9 +48,9 @@ python3 scripts/write_quarter_profit.py
 
 ## 新增营收页（2026-11-13）
 
-2.1～2.3 对应行业单季营收、年TTM营收、年TTM营收同比；4.1～4.3 对应相同的单股指标。覆盖 2022Q1～2026Q3，31 个行业、112 家公司，保留现有页签名称、顺序和链接。
+2.1～2.3 对应行业单季营收、年TTM营收、年TTM营收环比；4.1～4.3 对应相同的单股指标。覆盖 2022Q1～2026Q3，31 个行业、112 家公司，保留现有页签顺序和链接。
 
-营收取合并报表 `total_revenue`，为空时回退至 `revenue`。先按公司计算单季，再按当前申万2021一级行业成分汇总；单季缺少本期或前期累计报表的公司不进入该季度合计，数量见 `industry.stats`。行业历史采用当前成分回溯，季度之间可用公司数量可能不同。TTM 为连续四个单季之和，同比为本期TTM / 四季度前TTM - 1，分母为零或所需历史缺失时留空。同比始终以数值比例写入，显示两位小数百分比。
+营收取合并报表 `total_revenue`，为空时回退至 `revenue`。先按公司计算单季，再按当前申万2021一级行业成分汇总；单季缺少本期或前期累计报表的公司不进入该季度合计，数量见 `industry.stats`。行业历史采用当前成分回溯，季度之间可用公司数量可能不同。TTM 为连续四个单季之和，环比为本期TTM / 上季度TTM - 1，分母为零或所需历史缺失时留空。环比始终以数值比例写入，显示两位小数百分比。
 
 新取数补入长鑫科技原缺少的 2025Q1、Q2 营收，并重算相关 TTM。所有既有非空单股单季营收均与新取的历史合并报表交叉核对。
 
@@ -64,3 +64,9 @@ python3 scripts/write_revenue_sheets.py
 ```
 
 写值和样式按最多 80 列分块，避免飞书 100 列限制；重复运行会复用已存在的相同条件格式，不重复新增。
+
+## 四个 .3 页签的环比规则
+
+1.3、2.3、3.3、4.3 均已改为年TTM环比涨幅：用同一行业或公司的本季度TTM除以上季度TTM，再减1。例如 26Q3 对比 26Q2，26Q1 对比 25Q4。使用未取整的原始TTM计算，百分比不按金额规则舍入；分母保留正负号，与原涨幅算法一致。上季度为零或任一期缺失时留空。
+
+`qoq` 字段为当前写入数据，`yoy` 字段仅保留为历史审计数据。所有同步脚本使用 `qoq`，避免后续刷新恢复为原先算法。`scripts/change_growth_to_qoq.py` 会检查原始TTM与飞书数值一致，更新四页数值、文字及标题，并确认原条件格式未变；校验结果记录在 `data/growth_qoq_sync.json`。

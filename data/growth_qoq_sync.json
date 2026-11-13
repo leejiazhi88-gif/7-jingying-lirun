@@ -1,0 +1,84 @@
+{
+  "latest_financial_period": "20260930",
+  "growth": "qoq",
+  "formula": "current TTM / previous-quarter TTM - 1",
+  "missing_or_zero_previous": "blank",
+  "denominator": "signed, matching previous growth convention",
+  "all_numeric": true,
+  "sheets": [
+    {
+      "sheet_id": "Oj41pd",
+      "title": "1.3赛道年TTM利润环比涨幅",
+      "source_ttm_sheet": "YhOty9",
+      "ranges": [
+        "Oj41pd!B2:AF20"
+      ],
+      "numeric_cells": 465,
+      "updated_text_cells": [
+        "A1"
+      ],
+      "conditional_formats_preserved": true,
+      "latest_example": {
+        "current_ttm": 22265.6319773427,
+        "previous_quarter_ttm": 21954.62,
+        "qoq": 0.014166128921507148
+      }
+    },
+    {
+      "sheet_id": "y61pqJ",
+      "title": "2.3 赛道年TT营收环比涨幅",
+      "source_ttm_sheet": "dzdlsz",
+      "ranges": [
+        "y61pqJ!B2:AF20"
+      ],
+      "numeric_cells": 465,
+      "updated_text_cells": [
+        "A1"
+      ],
+      "conditional_formats_preserved": true,
+      "latest_example": {
+        "current_ttm": 60661.663181102995,
+        "previous_quarter_ttm": 59457.786141108394,
+        "qoq": 0.020247592756607036
+      }
+    },
+    {
+      "sheet_id": "xMYegN",
+      "title": "3.3单个年TTM利润环比涨幅",
+      "source_ttm_sheet": "O4pM2w",
+      "ranges": [
+        "xMYegN!B3:CC21",
+        "xMYegN!CD3:DI21"
+      ],
+      "numeric_cells": 1648,
+      "updated_text_cells": [
+        "A1"
+      ],
+      "conditional_formats_preserved": true,
+      "latest_example": {
+        "current_ttm": 85.36858,
+        "previous_quarter_ttm": 72.07298999999999,
+        "qoq": 0.18447396174350472
+      }
+    },
+    {
+      "sheet_id": "YoTOcI",
+      "title": "4.3单个年TTM营收环比涨幅",
+      "source_ttm_sheet": "E9yBZl",
+      "ranges": [
+        "YoTOcI!B3:CC21",
+        "YoTOcI!CD3:DI21"
+      ],
+      "numeric_cells": 1650,
+      "updated_text_cells": [
+        "A1"
+      ],
+      "conditional_formats_preserved": true,
+      "latest_example": {
+        "current_ttm": 784.30826,
+        "previous_quarter_ttm": 736.10258,
+        "qoq": 0.0654877204750457
+      }
+    }
+  ]
+}

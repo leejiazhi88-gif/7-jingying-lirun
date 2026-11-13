@@ -11,7 +11,7 @@ from write_quarter_profit import BASE, DEFAULT_WIKI_TOKEN, load_env_file, reques
 ROOT = Path(__file__).resolve().parents[1]
 DATA_FILE = ROOT / "data" / "derived_sheets.json"
 SHEET_TTM = "YhOty9"
-SHEET_YOY = "Oj41pd"
+SHEET_GROWTH = "Oj41pd"
 SHEET_SUMMARY_SOURCE = "WIPtkJ"
 SUMMARY_TITLE = "汇总一览表（26.9.9）"
 
@@ -125,7 +125,7 @@ def summary_matrix(rows):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--financial-only", action="store_true",
-                        help="Only update the TTM and YoY sheets; leave the market summary untouched.")
+                        help="Only update the TTM and QoQ sheets; leave the market summary untouched.")
     args = parser.parse_args()
     load_env_file()
     data = json.loads(DATA_FILE.read_text(encoding="utf-8"))
@@ -133,23 +133,24 @@ def main():
     spreadsheet = spreadsheet_token(token, os.environ.get("FEISHU_WIKI_TOKEN", DEFAULT_WIKI_TOKEN))
 
     ttm_rows = [[rounded(v) for v in row] for row in data["ttm"] if row is not None]
-    # 审计数据以百分数记录（如 71.74）；飞书百分比单元格底层应写 0.7174。
-    yoy_rows = [[None if v is None else float(v) / 100 for v in row] for row in data["yoy"] if row is not None]
+    # 环比保存为数值比例，直接用于百分比单元格，不能再除以 100。
+    qoq_rows = data["qoq"]
     periods = json.loads((ROOT / "data" / "quarter_profit.json").read_text(encoding="utf-8"))["periods"]
     labels = [[f"{period[2:4]}年Q{((int(period[4:6]) - 1) // 3) + 1}"] for period in periods]
-    for sheet_id, row_count in ((SHEET_TTM, len(ttm_rows)), (SHEET_YOY, len(yoy_rows))):
+    for sheet_id, row_count in ((SHEET_TTM, len(ttm_rows)), (SHEET_GROWTH, len(qoq_rows))):
         request("PUT", f"{BASE}/sheets/v2/spreadsheets/{spreadsheet}/values", token, {
             "valueRange": {"range": f"{sheet_id}!A2:A{row_count + 1}", "values": labels[:row_count]}
         })
     ttm_range = write_and_verify(token, spreadsheet, SHEET_TTM, (2, 2), ttm_rows)
-    yoy_range = write_and_verify(token, spreadsheet, SHEET_YOY, (2, 2), yoy_rows)
+    qoq_range = write_and_verify(token, spreadsheet, SHEET_GROWTH, (2, 2), qoq_rows)
+    write_and_verify(token, spreadsheet, SHEET_GROWTH, (1, 1), [["年TTM利润环比涨幅"]])
     request("PUT", f"{BASE}/sheets/v2/spreadsheets/{spreadsheet}/styles_batch_update", token,
             {"data": style_groups(SHEET_TTM, data["ttm"][:len(ttm_rows)])})
     request("PUT", f"{BASE}/sheets/v2/spreadsheets/{spreadsheet}/styles_batch_update", token,
-            {"data": percentage_style(SHEET_YOY, yoy_rows)})
+            {"data": percentage_style(SHEET_GROWTH, qoq_rows)})
 
     if args.financial_only:
-        print(json.dumps({"ttm": ttm_range, "yoy": yoy_range, "financial_only": True}, ensure_ascii=False))
+        print(json.dumps({"ttm": ttm_range, "qoq": qoq_range, "financial_only": True}, ensure_ascii=False))
         return
 
     summary_sheet, created = find_or_add_summary(token, spreadsheet)
@@ -165,8 +166,8 @@ def main():
     request("PUT", f"{BASE}/sheets/v2/spreadsheets/{spreadsheet}/styles_batch_update", token,
             {"data": summary_percentage_styles(summary_sheet, len(summary))})
 
-    numeric = sum(isinstance(v, (int, float)) for matrix in (ttm_rows, yoy_rows, summary) for row in matrix for v in row)
-    print(json.dumps({"ttm": ttm_range, "yoy": yoy_range, "summary_sheet": summary_sheet,
+    numeric = sum(isinstance(v, (int, float)) for matrix in (ttm_rows, qoq_rows, summary) for row in matrix for v in row)
+    print(json.dumps({"ttm": ttm_range, "qoq": qoq_range, "summary_sheet": summary_sheet,
                       "summary_created": created, "headers": header_range, "summary": summary_range,
                       "numeric_cells": numeric, "as_of": data["as_of"]}, ensure_ascii=False))
 

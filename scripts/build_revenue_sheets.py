@@ -6,6 +6,8 @@ import json
 from collections import Counter
 from pathlib import Path
 
+from growth_qoq import qoq_matrix, qoq_series
+
 ROOT = Path(__file__).resolve().parents[1]
 OUTPUT = ROOT / 'data' / 'revenue_sheets.json'
 
@@ -100,17 +102,19 @@ def build(cache):
             quarter.append(value)
         ttm, yoy = derive(quarter)
         source.update(quarter=quarter, ttm=ttm)
-        individual_data[name] = {**source, 'yoy': yoy}
+        individual_data[name] = {**source, 'yoy': yoy, 'qoq': qoq_series(ttm)}
     individual['as_of'] = '20261113'
     (ROOT / 'data/individual_revenue.json').write_text(json.dumps(individual, ensure_ascii=False, indent=2) + '\n')
     result = {
         'as_of': '20261113', 'latest_financial_period': periods[0], 'unit': '亿元',
         'source': 'Tushare income_vip (report_type=1), index_member_all (is_new=Y)',
-        'method': 'Current SW2021 membership; total_revenue with revenue fallback; single quarter from cumulative differences; TTM=sum of four quarters; YoY=TTM/TTM four quarters earlier-1. Missing constituents stay blank. Industry sums omit companies missing current/previous cumulative and disclose counts.',
+        'method': 'Current SW2021 membership; total_revenue with revenue fallback; single quarter from cumulative differences; TTM=sum of four quarters; displayed growth is QoQ=TTM/previous-quarter TTM-1. YoY is retained only as historical audit data. Missing constituents stay blank. Industry sums omit companies missing current/previous cumulative and disclose counts.',
+        'displayed_growth': 'qoq',
         'periods': periods,
         'industry': {'codes': codes, 'names': names, 'quarter': quarters,
                      'ttm': [list(row) for row in zip(*industry_ttm)],
                      'yoy': [list(row) for row in zip(*industry_yoy)], 'stats': stats,
+                     'qoq': qoq_matrix([list(row) for row in zip(*industry_ttm)], len(codes)),
                      'membership': membership},
         'individual': {'companies': companies, 'data': individual_data},
         'individual_backfills': backfills,
@@ -124,13 +128,13 @@ def build(cache):
 def check(data):
     assert len(data['periods']) == 19 and data['periods'][0] == '20260930'
     assert len(data['industry']['codes']) == len(data['industry']['names']) == 31
-    for field in ('quarter', 'ttm', 'yoy'):
+    for field in ('quarter', 'ttm', 'yoy', 'qoq'):
         values = data['industry'][field]
         assert len(values) == 19 and all(len(row) == 31 for row in values)
         assert all(v is None or isinstance(v, (int, float)) for row in values for v in row)
     assert len(data['individual']['companies']) == 112
     return {field: sum(v is not None for row in data['industry'][field] for v in row)
-            for field in ('quarter', 'ttm', 'yoy')}
+            for field in ('quarter', 'ttm', 'qoq')}
 
 
 if __name__ == '__main__':

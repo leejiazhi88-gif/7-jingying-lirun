@@ -11,7 +11,7 @@ DATA_FILE = ROOT / "data" / "individual_profit.json"
 SHEETS = {
     "quarter": "mJvCV8",
     "ttm": "O4pM2w",
-    "yoy": "xMYegN",
+    "qoq": "xMYegN",
 }
 
 
@@ -92,7 +92,7 @@ def main():
 
     quarter = matrix(data, "q")
     ttm = matrix(data, "ttm")
-    yoy = matrix(data, "yoy", percentage=True)
+    qoq = matrix(data, "qoq", percentage=True)
     labels = [[f"{period[2:4]}年Q{((int(period[4:6]) - 1) // 3) + 1}"] for period in data["periods"]]
     for sheet_id in SHEETS.values():
         request("PUT", f"{BASE}/sheets/v2/spreadsheets/{spreadsheet}/values", token,
@@ -100,18 +100,20 @@ def main():
     ranges = {
         "quarter": write_and_verify(token, spreadsheet, SHEETS["quarter"], quarter),
         "ttm": write_and_verify(token, spreadsheet, SHEETS["ttm"], ttm),
-        "yoy": write_and_verify(token, spreadsheet, SHEETS["yoy"], yoy),
+        "qoq": write_and_verify(token, spreadsheet, SHEETS["qoq"], qoq),
     }
     request("PUT", f"{BASE}/sheets/v2/spreadsheets/{spreadsheet}/styles_batch_update", token,
             {"data": number_styles(SHEETS["quarter"], quarter)})
     request("PUT", f"{BASE}/sheets/v2/spreadsheets/{spreadsheet}/styles_batch_update", token,
             {"data": number_styles(SHEETS["ttm"], ttm)})
     request("PUT", f"{BASE}/sheets/v2/spreadsheets/{spreadsheet}/styles_batch_update", token,
-            {"data": percentage_style(SHEETS["yoy"], yoy)})
+            {"data": percentage_style(SHEETS["qoq"], qoq)})
+    request("PUT", f"{BASE}/sheets/v2/spreadsheets/{spreadsheet}/values", token,
+            {"valueRange": {"range": f"{SHEETS['qoq']}!A1:A1", "values": [["年TTM利润环比涨幅"]]}})
 
     counts = {"quarter": sum(v is not None for row in quarter for v in row),
               "ttm": sum(v is not None for row in ttm for v in row),
-              "yoy": sum(v is not None for row in yoy for v in row)}
+              "qoq": sum(v is not None for row in qoq for v in row)}
     print(json.dumps({"ranges": ranges, "counts": counts, "all_numeric": True}, ensure_ascii=False))
 
 
